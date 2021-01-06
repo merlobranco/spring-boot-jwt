@@ -10,6 +10,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
+import com.merlobranco.springboot.app.auth.filter.JWTAuthenticationFilter;
 import com.merlobranco.springboot.app.auth.handler.LoginSuccessHandler;
 
 @EnableGlobalMethodSecurity(securedEnabled=true, prePostEnabled = true)
@@ -34,11 +35,6 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http.authorizeRequests().antMatchers("/", "/css/**", "/js/**", "/images/**", "/listar**", "/locale").permitAll()
-		//.antMatchers("/ver/**").hasAnyRole("USER")
-		//.antMatchers("/uploads/**").hasAnyRole("USER")
-		//.antMatchers("/form/**").hasAnyRole("ADMIN")
-		//.antMatchers("/eliminar/**").hasAnyRole("ADMIN")
-		//.antMatchers("/factura/**").hasAnyRole("ADMIN")
 		.anyRequest().authenticated()
 //		.and()
 //			.formLogin()
@@ -49,6 +45,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 //		.and()
 //		.exceptionHandling().accessDeniedPage("/error_403")
 		.and()
+		.addFilter(new JWTAuthenticationFilter(authenticationManager()))
 		.csrf().disable()
 		.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 	}
