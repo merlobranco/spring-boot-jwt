@@ -20,6 +20,7 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.merlobranco.springboot.app.auth.service.JWTKeys;
 import com.merlobranco.springboot.app.auth.service.JWTService;
 import com.merlobranco.springboot.app.models.entity.Usuario;
 
@@ -76,7 +77,7 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 		
 		String token = jwtService.create(authResult);
 		
-		response.addHeader("Authorization", "Bearer " + token);
+		response.addHeader(JWTKeys.HEADER_STRING, JWTKeys.TOKEN_PREFIX + token);
 		
 		Map<String, Object> body = new HashMap<>();
 		body.put("token", token);
