@@ -11,6 +11,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import com.merlobranco.springboot.app.auth.filter.JWTAuthenticationFilter;
+import com.merlobranco.springboot.app.auth.filter.JWTAuthorizationFilter;
 import com.merlobranco.springboot.app.auth.handler.LoginSuccessHandler;
 
 @EnableGlobalMethodSecurity(securedEnabled=true, prePostEnabled = true)
@@ -46,6 +47,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 //		.exceptionHandling().accessDeniedPage("/error_403")
 		.and()
 		.addFilter(new JWTAuthenticationFilter(authenticationManager()))
+		.addFilter(new JWTAuthorizationFilter(authenticationManager()))
 		.csrf().disable()
 		.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 	}
