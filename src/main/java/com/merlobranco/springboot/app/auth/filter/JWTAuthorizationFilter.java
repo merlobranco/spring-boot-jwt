@@ -2,6 +2,8 @@ package com.merlobranco.springboot.app.auth.filter;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.util.Arrays;
+import java.util.Collection;
 
 import javax.crypto.SecretKey;
 import javax.servlet.FilterChain;
@@ -10,7 +12,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtException;
@@ -33,22 +41,32 @@ public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
 			return;
 		}
 		
-		boolean tokenValid = false;
-		Claims claims = null;
+		boolean validToken = false;
+		Claims token = null;
 		try {
-			claims = Jwts.parserBuilder()
+			token = Jwts.parserBuilder()
 				.setSigningKey(generateKey())
 				.build()
 				.parseClaimsJws(header.replace("Bearer ", ""))
 				.getBody();
-			tokenValid = true;
+			validToken = true;
 		} catch (JwtException | IllegalArgumentException e) {
 			
 		}
 		
-		if (tokenValid) {
+		UsernamePasswordAuthenticationToken authentication = null;
+		
+		// Initializing session with an authenticated token
+		if (validToken) {
+			String username = token.getSubject();
+			Object roles = token.get("authorities");
+			Collection<? extends GrantedAuthority> authorities = Arrays.asList(new ObjectMapper().readValue(roles.toString().getBytes(), SimpleGrantedAuthority[].class));
 			
+			authentication = new UsernamePasswordAuthenticationToken(username, null, authorities);
 		}
+		
+		SecurityContextHolder.getContext().setAuthentication(authentication);
+		chain.doFilter(request, response);
 	}
 	
 	protected boolean requiresAuthentication(String header) {
