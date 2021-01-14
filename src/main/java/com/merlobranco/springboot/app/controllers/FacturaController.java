@@ -54,7 +54,7 @@ public class FacturaController {
 		model.addAttribute("factura", factura);
 		model.addAttribute("titulo", String.format(messageSource.getMessage("text.factura.ver.titulo", null, locale), factura.getDescripcion()));
 		
-		return "/factura/ver";
+		return "factura/ver";
 	} 
 	
 	@GetMapping("/form/{clienteId}")
@@ -71,7 +71,7 @@ public class FacturaController {
 		model.addAttribute("factura", factura);
 		model.addAttribute("titulo", messageSource.getMessage("text.factura.form.titulo", null, locale));
 		
-		return "/factura/form";
+		return "factura/form";
 	}
 	
 	@GetMapping(value = "/cargar-productos/{term}", produces = {"application/json"})
@@ -91,13 +91,13 @@ public class FacturaController {
 		
 		if (result.hasErrors()) {
 			model.addAttribute("titulo", messageSource.getMessage("text.factura.form.titulo", null, locale));
-			return "/factura/form";
+			return "factura/form";
 		}
 		
 		if (itemId == null || itemId.length == 0) {
 			model.addAttribute("titulo", messageSource.getMessage("text.factura.form.titulo", null, locale));
 			model.addAttribute("error", messageSource.getMessage("text.factura.flash.lineas.error", null, locale));
-			return "/factura/form";
+			return "factura/form";
 		}
 		
 		for (int i = 0; i < itemId.length; i++) {

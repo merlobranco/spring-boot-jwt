@@ -13,7 +13,7 @@ import org.springframework.web.servlet.view.xml.MarshallingView;
 
 import com.merlobranco.springboot.app.models.entity.Cliente;
 
-@Component("/listar.xml")
+@Component("listar.xml")
 public class ClienteListXMLView extends MarshallingView {
 	
 	

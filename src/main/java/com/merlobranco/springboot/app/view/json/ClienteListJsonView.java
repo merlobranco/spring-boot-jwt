@@ -8,7 +8,7 @@ import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
 
 import com.merlobranco.springboot.app.models.entity.Cliente;
 
-@Component("/listar.json")
+@Component("listar.json")
 public class ClienteListJsonView extends MappingJackson2JsonView {
 
 	@SuppressWarnings("unchecked")

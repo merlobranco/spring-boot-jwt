@@ -90,7 +90,7 @@ public class ClienteController {
 		}
 		model.addAttribute("titulo", messageSource.getMessage("text.cliente.detalle.titulo", null, locale).concat(": ").concat(cliente.getNombre()));
 		model.addAttribute("cliente", cliente);
-		return "/ver";
+		return "ver";
 	}
 	
 	@GetMapping("/listar-rest")
@@ -139,7 +139,7 @@ public class ClienteController {
 		model.addAttribute("titulo", messageSource.getMessage("text.cliente.listar.titulo", null, locale));
 		model.addAttribute("clientes", clientes);
 		model.addAttribute("page", pageRender);
-		return "/listar";
+		return "listar";
 	}
 
 	@Secured("ROLE_ADMIN")
@@ -148,7 +148,7 @@ public class ClienteController {
 		Cliente cliente = new Cliente();
 		model.addAttribute("titulo", messageSource.getMessage("text.cliente.form.titulo.crear", null, locale));
 		model.addAttribute("cliente", cliente);
-		return "/form";
+		return "form";
 	}
 
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
@@ -166,7 +166,7 @@ public class ClienteController {
 		}
 		model.addAttribute("titulo", messageSource.getMessage("text.cliente.form.titulo.editar", null, locale));
 		model.addAttribute("cliente", cliente);
-		return "/form";
+		return "form";
 	}
 
 	@Secured("ROLE_ADMIN")

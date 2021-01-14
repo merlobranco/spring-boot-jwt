@@ -20,7 +20,7 @@ import org.springframework.web.servlet.view.document.AbstractXlsxView;
 import com.merlobranco.springboot.app.models.entity.Factura;
 import com.merlobranco.springboot.app.models.entity.ItemFactura;
 
-@Component("/factura/ver.xlsx")
+@Component("factura/ver.xlsx")
 public class FacturaXlsxView extends AbstractXlsxView {
 
 	@Override

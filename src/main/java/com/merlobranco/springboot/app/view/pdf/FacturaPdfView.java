@@ -22,7 +22,7 @@ import com.lowagie.text.pdf.PdfWriter;
 import com.merlobranco.springboot.app.models.entity.Factura;
 import com.merlobranco.springboot.app.models.entity.ItemFactura;
 
-@Component("/factura/ver")
+@Component("factura/ver")
 public class FacturaPdfView extends AbstractPdfView {
 	
 	@Autowired
